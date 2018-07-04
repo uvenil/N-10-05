@@ -1,0 +1,15 @@
+23:34~/Schreibtisch/neu/n-10-05 (master)$heroku create
+Creating app... done, ⬢ scenic-grand-teton-93942
+https://scenic-grand-teton-93942.herokuapp.com/ | https://git.heroku.com/scenic-grand-teton-93942.git
+23:34~/Schreibtisch/neu/n-10-05 (master)$heroku addons:create mongolab:sandbox
+Creating mongolab:sandbox on ⬢ scenic-grand-teton-93942... free
+Welcome to mLab.  Your new subscription is being created and will be available shortly.  Please consult the mLab Add-on Admin UI to check on its progress.
+Created mongolab-infinite-47275 as MONGODB_URI
+Use heroku addons:docs mongolab to view documentation
+23:35~/Schreibtisch/neu/n-10-05 (master)$heroku config
+=== scenic-grand-teton-93942 Config Vars
+MONGODB_URI: mongodb://heroku_bsxrkb2h:4ovtvkigvqv6ns51hmmalnmb3k@ds125851.mlab.com:25851/heroku_bsxrkb2h
+23:35~/Schreibtisch/neu/n-10-05 (master)$git push heroku master
+
+
+To https://git.heroku.com/scenic-grand-teton-93942.git
