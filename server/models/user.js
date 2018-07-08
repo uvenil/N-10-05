@@ -12,6 +12,7 @@ var UserSchema = new mongoose.Schema({
     minlength: 1,
     unique: true,
     validate: {
+      // !!! hier: kein validator mit 2 arguments
       validator: validator.isEmail,
       message: '{VALUE} is not a valid email'
     }
@@ -44,6 +45,7 @@ UserSchema.methods.generateAuthToken = async function () {
   var user = this;
   var access = 'auth';
   var token = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET).toString();
+  // !!! Array von tokens erstellen
   user.tokens = [{access, token}];
   try {
     await user.save()
