@@ -30,6 +30,8 @@ describe('POST /todos', () => {
         Todo.find({text}).then((todos) => {
           expect(todos.length).toBe(1);
           expect(todos[0].text).toBe(text);
+          expect(typeof todos[0].lastModified).toBe('number');
+          expect(typeof todos[0].createdAt).toBe('number');
           done();
         }).catch((e) => done(e));
       });
@@ -184,6 +186,8 @@ describe('PATCH /todos/:id', () => {
         expect(res.body.todo.text).toBe(text);
         expect(res.body.todo.completed).toBe(true);
         expect(typeof res.body.todo.completedAt).toBe('number');
+        expect(typeof res.body.todo.lastModified).toBe('number');
+        expect(typeof res.body.todo.createdAt).toBe('number');
       })
       .end(done);
   });

@@ -16,8 +16,11 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 
 app.post('/todos', authenticate, (req, res) => {
+  const aktTime = new Date().getTime();
   var todo = new Todo({
     text: req.body.text,
+    createdAt: aktTime,
+    lastModified: aktTime,
     _creator: req.user._id
   });
 
@@ -84,18 +87,21 @@ app.delete('/todos/:id', authenticate, async (req, res) => {
 app.patch('/todos/:id', authenticate, (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
+  const aktTime = new Date().getTime();
+  
+  body.lastModified = aktTime;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
   if (_.isBoolean(body.completed) && body.completed) {
-    body.completedAt = new Date().getTime();
+    body.completedAt = aktTime;
   } else {
     body.completed = false;
     body.completedAt = null;
   }
-
+  
   Todo.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((todo) => {
     if (!todo) {
       return res.status(404).send();
@@ -125,9 +131,6 @@ app.get('/users/me', authenticate, (req, res) => {  // loggedin
   res.send(req.user);
 });
 
-// !!! hier: 
-// npm audit
-// creator-String und coworker-Array, editor-rights
 // Einloggen nach Delete user noch möglich; nur 1 Token jeweils gespeichert
 app.post('/users/login', async (req, res) => {  // login
   try {

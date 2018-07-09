@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 
+// !!! hier: 
+// creator-String und coworker-Array, editor-rights
 var UserSchema = new mongoose.Schema({
   email: {
     type: String,
