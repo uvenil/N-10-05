@@ -12,7 +12,6 @@ var UserSchema = new mongoose.Schema({
     minlength: 1,
     unique: true,
     validate: {
-      // !!! hier: kein validator mit 2 arguments
       validator: (value) => validator.isEmail(value),
       message: '{VALUE} is not a valid email'
     }

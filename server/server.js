@@ -125,7 +125,10 @@ app.get('/users/me', authenticate, (req, res) => {  // loggedin
   res.send(req.user);
 });
 
-// !!! hier: Einloggen nach Delete user noch möglich; nur 1 Token jeweils gespeichert
+// !!! hier: 
+// npm audit
+// creator-String und coworker-Array, editor-rights
+// Einloggen nach Delete user noch möglich; nur 1 Token jeweils gespeichert
 app.post('/users/login', async (req, res) => {  // login
   try {
     const body = _.pick(req.body, ['email', 'password']);
