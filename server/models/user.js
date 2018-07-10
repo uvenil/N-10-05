@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 
-// !!! hier: 
-// creator-String und coworker-Array, editor-rights
 var UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -46,7 +44,6 @@ UserSchema.methods.generateAuthToken = async function () {
   var user = this;
   var access = 'auth';
   var token = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET).toString();
-  // !!! Array von tokens erstellen
   user.tokens = [{access, token}];
   try {
     await user.save()

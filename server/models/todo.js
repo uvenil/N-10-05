@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
 
+// !!! hier: 
+// createdAt automatisch in Mongo erzeugen
+// Einzeldaten im Attribut meta zusammenfassen
+// creator-String und coworker-Array, editor-rights
 var Todo = mongoose.model('Todo', {
   text: {
     type: String,
@@ -21,7 +25,7 @@ var Todo = mongoose.model('Todo', {
   },
   createdAt: {
     type: Number,
-    default: null
+    default: new Date().getTime()//null
   },
   _creator: {
     type: mongoose.Schema.Types.ObjectId,
