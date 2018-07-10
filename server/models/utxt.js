@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 // createdAt automatisch in Mongo erzeugen
 // Einzeldaten im Attribut meta zusammenfassen
 // creator-String und coworker-Array, editor-rights
-var Todo = mongoose.model('Todo', {
+var Utxt = mongoose.model('Utxt', {
   text: {
     type: String,
     required: true,
@@ -33,4 +33,4 @@ var Todo = mongoose.model('Todo', {
   }
 });
 
-module.exports = {Todo};
+module.exports = {Utxt};

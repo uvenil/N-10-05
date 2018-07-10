@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 
 var {mongoose} = require('./db/mongoose');
-var {Todo} = require('./models/todo');
+var {Utxt} = require('./models/utxt');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 
@@ -15,54 +15,54 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
-app.post('/todos', authenticate, (req, res) => {
+app.post('/utxts', authenticate, (req, res) => {
   const aktTime = new Date().getTime();
-  var todo = new Todo({
+  var utxt = new Utxt({
     text: req.body.text,
     createdAt: aktTime,
     lastModified: aktTime,
     _creator: req.user._id
   });
 
-  todo.save().then((doc) => {
+  utxt.save().then((doc) => {
     res.send(doc);
   }, (e) => {
     res.status(400).send(e);
   });
 });
 
-app.get('/todos', authenticate, (req, res) => {
-  Todo.find({
+app.get('/utxts', authenticate, (req, res) => {
+  Utxt.find({
     _creator: req.user._id
-  }).then((todos) => {
-    res.send({todos});
+  }).then((utxts) => {
+    res.send({utxts});
   }, (e) => {
     res.status(400).send(e);
   });
 });
 
-app.get('/todos/:id', authenticate, (req, res) => {
+app.get('/utxts/:id', authenticate, (req, res) => {
   var id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
-  Todo.findOne({
+  Utxt.findOne({
     _id: id,
     _creator: req.user._id
-  }).then((todo) => {
-    if (!todo) {
+  }).then((utxt) => {
+    if (!utxt) {
       return res.status(404).send();
     }
 
-    res.send({todo});
+    res.send({utxt});
   }).catch((e) => {
     res.status(400).send();
   });
 });
 
-app.delete('/todos/:id', authenticate, async (req, res) => {
+app.delete('/utxts/:id', authenticate, async (req, res) => {
   const id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
@@ -70,21 +70,21 @@ app.delete('/todos/:id', authenticate, async (req, res) => {
   }
 
   try {
-    const todo = await Todo.findOneAndRemove({
+    const utxt = await Utxt.findOneAndRemove({
       _id: id,
       _creator: req.user._id
     });
-    if (!todo) {
+    if (!utxt) {
       return res.status(404).send();
     }
 
-    res.send({todo});
+    res.send({utxt});
   } catch (e) {
     res.status(400).send();
   }
 });
 
-app.patch('/todos/:id', authenticate, (req, res) => {
+app.patch('/utxts/:id', authenticate, (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
   const aktTime = new Date().getTime();
@@ -102,12 +102,12 @@ app.patch('/todos/:id', authenticate, (req, res) => {
     body.completedAt = null;
   }
   
-  Todo.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((todo) => {
-    if (!todo) {
+  Utxt.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((utxt) => {
+    if (!utxt) {
       return res.status(404).send();
     }
 
-    res.send({todo});
+    res.send({utxt});
   }).catch((e) => {
     res.status(400).send();
   })
