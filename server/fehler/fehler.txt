@@ -1,4 +1,0 @@
-(node:19267) DeprecationWarning: `open()` is deprecated in mongoose >= 4.11.0, use `openUri()` instead, or set the `useMongoClient` option if using `connect()` or `createConnection()`. See http://mongoosejs.com/docs/4.x/docs/connections.html#use-mongo-client
-Started up at port 3000
-  POST /todos
-(node:19267) DeprecationWarning: Implicit async custom validators (custom validators that take 2 arguments) are deprecated in mongoose >= 4.9.0. See http://mongoosejs.com/docs/validation.html#async-custom-validators for more info.
