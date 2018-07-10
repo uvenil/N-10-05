@@ -30,8 +30,8 @@ describe('POST /utxts', () => {
         Utxt.find({text}).then((utxts) => {
           expect(utxts.length).toBe(1);
           expect(utxts[0].text).toBe(text);
-          expect(typeof utxts[0].lastModified).toBe('number');
-          expect(typeof utxts[0].createdAt).toBe('number');
+          expect(typeof utxts[0].time.lastModified).toBe('number');
+          expect(typeof utxts[0].time.createdAt).toBe('number');
           done();
         }).catch((e) => done(e));
       });
@@ -185,9 +185,9 @@ describe('PATCH /utxts/:id', () => {
       .expect((res) => {
         expect(res.body.utxt.text).toBe(text);
         expect(res.body.utxt.completed).toBe(true);
-        expect(typeof res.body.utxt.completedAt).toBe('number');
-        expect(typeof res.body.utxt.lastModified).toBe('number');
-        expect(typeof res.body.utxt.createdAt).toBe('number');
+        expect(typeof res.body.utxt.time.completedAt).toBe('number');
+        expect(typeof res.body.utxt.time.lastModified).toBe('number');
+        expect(typeof res.body.utxt.time.createdAt).toBe('number');
       })
       .end(done);
   });
@@ -222,7 +222,7 @@ describe('PATCH /utxts/:id', () => {
       .expect((res) => {
         expect(res.body.utxt.text).toBe(text);
         expect(res.body.utxt.completed).toBe(false);
-        expect(res.body.utxt.completedAt).not.toBeTruthy();
+        expect(res.body.utxt.time.completedAt).not.toBeTruthy();
       })
       .end(done);
   });

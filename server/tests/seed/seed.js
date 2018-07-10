@@ -32,7 +32,7 @@ const utxts = [{
   _id: new ObjectID(),
   text: 'Second test utxt',
   completed: true,
-  completedAt: 333,
+  time: { completedAt: 333 },
   _creator: userTwoId
 }];
 

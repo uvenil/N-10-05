@@ -19,8 +19,10 @@ app.post('/utxts', authenticate, (req, res) => {
   const aktTime = new Date().getTime();
   var utxt = new Utxt({
     text: req.body.text,
-    createdAt: aktTime,
-    lastModified: aktTime,
+    time: {
+      createdAt: aktTime,
+      lastModified: aktTime
+    },
     _creator: req.user._id
   });
 
@@ -87,19 +89,20 @@ app.delete('/utxts/:id', authenticate, async (req, res) => {
 app.patch('/utxts/:id', authenticate, (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
+  body.time = {};
   const aktTime = new Date().getTime();
   
-  body.lastModified = aktTime;
+  body.time.lastModified = aktTime;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
   if (_.isBoolean(body.completed) && body.completed) {
-    body.completedAt = aktTime;
+    body.time.completedAt = aktTime;
   } else {
     body.completed = false;
-    body.completedAt = null;
+    body.time.completedAt = null;
   }
   
   Utxt.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((utxt) => {

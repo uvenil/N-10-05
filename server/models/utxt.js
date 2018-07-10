@@ -15,17 +15,19 @@ var Utxt = mongoose.model('Utxt', {
     type: Boolean,
     default: false
   },
-  completedAt: {
-    type: Number,
-    default: null
-  },
-  lastModified: {
-    type: Number,
-    default: null
-  },
-  createdAt: {
-    type: Number,
-    default: new Date().getTime()
+  time: {
+    completedAt: {
+      type: Number,
+      default: null
+    },
+    lastModified: {
+      type: Number,
+      default: null
+    },
+    createdAt: {
+      type: Number,
+      default: new Date().getTime()
+    }
   },
   _creator: {
     type: mongoose.Schema.Types.ObjectId,
