@@ -14,7 +14,7 @@ const UtxtSchema = new mongoose.Schema({
     trim: true
   },
   ulinks: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, in denen der aktuelle utxt vorkommt
-  ulinkcond: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, bei denen der aktuelle utxt Bedingung für die Gükltigkeit ist
+  ulinksCond: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, bei denen der aktuelle utxt Bedingung für die Gükltigkeit ist
   completed: {
     type: Boolean,
     default: false

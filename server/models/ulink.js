@@ -11,7 +11,7 @@ var UlinkSchema = UtxtSchema.extend({ // UtxtSchema wird vererbt
       required: true
     },
     utxts: [mongoose.Schema.Types.ObjectId], // utxts in der Verbingung Ulink in der richtigen Reihenfolge
-    ulinkcond: [mongoose.Schema.Types.ObjectId] // Bedingung für die Gükltigkeit der Verbindung
+    utxtsCond: [mongoose.Schema.Types.ObjectId] // Bedingung für die Gükltigkeit der Verbindung
   }]
 });
 
