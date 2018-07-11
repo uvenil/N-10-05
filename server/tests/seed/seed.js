@@ -1,7 +1,7 @@
 const {ObjectID} = require('mongodb');
 const jwt = require('jsonwebtoken');
 
-const {Utxt} = require('./../../models/utxt');
+const {Wort} = require('./../../models/wort');
 const {User} = require('./../../models/user');
 
 const userOneId = new ObjectID();
@@ -24,21 +24,21 @@ const users = [{
   }]
 }];
 
-const utxts = [{
+const worte = [{
   _id: new ObjectID(),
-  text: 'First test utxt',
-  'utxtuser._creator': userOneId
+  text: 'First test wort',
+  'wortuser._creator': userOneId
 }, {
   _id: new ObjectID(),
-  text: 'Second test utxt',
+  text: 'Second test wort',
   completed: true,
   'time.completedAt': 333,
-  'utxtuser._creator': userTwoId
+  'wortuser._creator': userTwoId
 }];
 
-const populateUtxts = (done) => {
-  Utxt.remove({}).then(() => {
-    return Utxt.insertMany(utxts);
+const populateWorte = (done) => {
+  Wort.remove({}).then(() => {
+    return Wort.insertMany(worte);
   }).then(() => done());
 };
 
@@ -51,4 +51,4 @@ const populateUsers = (done) => {
   }).then(() => done());
 };
 
-module.exports = {utxts, populateUtxts, users, populateUsers};
+module.exports = {worte, populateWorte, users, populateUsers};

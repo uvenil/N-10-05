@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 
 var {mongoose} = require('./db/mongoose');
-var {Utxt} = require('./models/utxt');
+var {Wort} = require('./models/wort');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 
@@ -15,56 +15,56 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
-app.post('/utxts', authenticate, (req, res) => {
+app.post('/worte', authenticate, (req, res) => {
   const aktTime = new Date().getTime();
-  var utxt = new Utxt({
+  var wort = new Wort({
     text: req.body.text,
     time: {
       createdAt: aktTime,
       lastModified: aktTime
     },
-    'utxtuser._creator': req.user._id
+    'wortuser._creator': req.user._id
   });
 
-  utxt.save().then((doc) => {
+  wort.save().then((doc) => {
     res.send(doc);
   }, (e) => {
     res.status(400).send(e);
   });
 });
 
-app.get('/utxts', authenticate, (req, res) => {
-  Utxt.find({
-    'utxtuser._creator': req.user._id
-  }).then((utxts) => {
-    res.send({utxts});
+app.get('/worte', authenticate, (req, res) => {
+  Wort.find({
+    'wortuser._creator': req.user._id
+  }).then((worte) => {
+    res.send({worte});
   }, (e) => {
     res.status(400).send(e);
   });
 });
 
-app.get('/utxts/:id', authenticate, (req, res) => {
+app.get('/worte/:id', authenticate, (req, res) => {
   var id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
 
-  Utxt.findOne({
+  Wort.findOne({
     _id: id,
-    'utxtuser._creator': req.user._id
-  }).then((utxt) => {
-    if (!utxt) {
+    'wortuser._creator': req.user._id
+  }).then((wort) => {
+    if (!wort) {
       return res.status(404).send();
     }
 
-    res.send({utxt});
+    res.send({wort});
   }).catch((e) => {
     res.status(400).send();
   });
 });
 
-app.delete('/utxts/:id', authenticate, async (req, res) => {
+app.delete('/worte/:id', authenticate, async (req, res) => {
   const id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
@@ -72,21 +72,21 @@ app.delete('/utxts/:id', authenticate, async (req, res) => {
   }
 
   try {
-    const utxt = await Utxt.findOneAndRemove({
+    const wort = await Wort.findOneAndRemove({
       _id: id,
-      'utxtuser._creator': req.user._id
+      'wortuser._creator': req.user._id
     });
-    if (!utxt) {
+    if (!wort) {
       return res.status(404).send();
     }
 
-    res.send({utxt});
+    res.send({wort});
   } catch (e) {
     res.status(400).send();
   }
 });
 
-app.patch('/utxts/:id', authenticate, (req, res) => {
+app.patch('/worte/:id', authenticate, (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
   body.time = {};
@@ -105,12 +105,12 @@ app.patch('/utxts/:id', authenticate, (req, res) => {
     body.time.completedAt = null;
   }
   
-  Utxt.findOneAndUpdate({ _id: id, 'utxtuser._creator': req.user._id}, {$set: body}, {new: true}).then((utxt) => {
-    if (!utxt) {
+  Wort.findOneAndUpdate({ _id: id, 'wortuser._creator': req.user._id}, {$set: body}, {new: true}).then((wort) => {
+    if (!wort) {
       return res.status(404).send();
     }
 
-    res.send({utxt});
+    res.send({wort});
   }).catch((e) => {
     res.status(400).send();
   })

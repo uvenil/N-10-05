@@ -5,8 +5,8 @@ var { mongoose } = require('./../../db/mongoose');
 
 const jwt = require('jsonwebtoken');
 
-const { Utxt } = require('./../../models/utxt');
-const { Ulink } = require('./../../models/ulink');
+const { Wort } = require('./../../models/wort');
+const { Satz } = require('./../../models/satz');
 const { User } = require('./../../models/user');
 
 const userOneId = new ObjectID();
@@ -29,37 +29,37 @@ const users = [{
   }]
 }];
 
-const utxts = [{
+const worte = [{
   _id: new ObjectID(),
-  text: 'First test ulink',
-  'utxtuser._creator': userOneId
+  text: 'First test satz',
+  'wortuser._creator': userOneId
 }, {
   _id: new ObjectID(),
-  text: 'Second test ulink',
+  text: 'Second test satz',
   completed: true,
   'time.completedAt': 333,
-  'utxtuser._creator': userTwoId
+  'wortuser._creator': userTwoId
 }];
 
-const ulinks = [{
-  ...utxts[0],
+const saetze = [{
+  ...worte[0],
   _id: new ObjectID(),
   ver: [{ // Verknüpfungstyp
-    name: "testlink1",
-    utxts: [utxts[0]._id, utxts[1]._id], // utxts in der Verbingung Ulink in der richtigen Reihenfolge
-  ulinkcond: [utxts[0]._id] // Bedingung für die Gükltigkeit der Verbindung
+    name: "testsatz1",
+    worte: [worte[0]._id, worte[1]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
+  satzcond: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
   }]
 }, {
-  ...utxts[1],
+  ...worte[1],
   _id: new ObjectID(),
-  text: 'Second test utxt',
+  text: 'Second test wort',
   completed: true,
   'time.completedAt': 555,
-  'utxtuser._creator': userTwoId,
+  'wortuser._creator': userTwoId,
   ver: [{ // Verknüpfungstyp
-      name: "testlink2",
-      utxts: [utxts[1]._id, utxts[0]._id], // utxts in der Verbingung Ulink in der richtigen Reihenfolge
-      ulinkcond: [utxts[1]._id] // Bedingung für die Gükltigkeit der Verbindung
+      name: "testsatz2",
+      worte: [worte[1]._id, worte[0]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
+      satzcond: [worte[1]._id] // Bedingung für die Gükltigkeit der Verbindung
   }]
 }];
 
@@ -67,25 +67,25 @@ const done = () => {
   console.log("fertig!");
   };
 
-const populateUtxts = (done) => {
-  Utxt.remove({}).then(() => {
-    var ut1 = new Utxt(utxts[0]).save();
-    var ut2 = new Utxt(utxts[1]).save();
+const populateWorte = (done) => {
+  Wort.remove({}).then(() => {
+    var ut1 = new Wort(worte[0]).save();
+    var ut2 = new Wort(worte[1]).save();
 
     return Promise.all([ut1, ut2])
 
-    // return Utxt.insertMany(utxts);
+    // return Wort.insertMany(worte);
   }).then(() => done());
 };
 
-const populateUlinks = (done) => {
-  Ulink.remove({}).then(() => {
-    var ul1 = new Ulink(ulinks[0]).save();
-    var ul2 = new Ulink(ulinks[1]).save();
+const populateSaetze = (done) => {
+  Satz.remove({}).then(() => {
+    var ul1 = new Satz(saetze[0]).save();
+    var ul2 = new Satz(saetze[1]).save();
 
     return Promise.all([ul1, ul2])
 
-    // return Ulink.insertMany(ulinks);
+    // return Satz.insertMany(saetze);
   }).then(() => done());
 };
 
@@ -98,8 +98,8 @@ const populateUsers = (done) => {
   }).then(() => done());
 };
 
-module.exports = {utxts, populateUtxts, users, populateUsers};
+module.exports = {worte, populateWorte, users, populateUsers};
 
 populateUsers(done);
-populateUlinks(done);
-populateUtxts(done);
+populateSaetze(done);
+populateWorte(done);

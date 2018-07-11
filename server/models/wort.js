@@ -1,20 +1,22 @@
+// Wort ist hier das HyperWort, das heißt ein Ausdruck ohne Leerzeichen in CamelCase: z.B. ProjektPlanen, GeschaeftsIdeen
+
 const { mongoose } = require('./../db/mongoose');
 
 // !!! hier: 
 // hyperwort.de, hyperwort.com registrieren
-// utxt = hyperwort, ulink = hypersatz, ggf. zirkuläre Sätze ermitteln in 2D, 3D, xD
+// wort = hyperwort, satz = hypersatz, ggf. zirkuläre Sätze ermitteln in 2D, 3D, xD
 // Aggregationsstufe
 // Einzeldaten im Attribut meta zusammenfassen
 // Usergruppen mit Rechten
-const UtxtSchema = new mongoose.Schema({
+const WortSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
     minlength: 1,
     trim: true
   },
-  ulinks: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, in denen der aktuelle utxt vorkommt
-  ulinksCond: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, bei denen der aktuelle utxt Bedingung für die Gükltigkeit ist
+  saetze: [mongoose.Schema.Types.ObjectId], // Verbindungen saetze, in denen der aktuelle wort vorkommt
+  saetzeCond: [mongoose.Schema.Types.ObjectId], // Verbindungen saetze, bei denen der aktuelle wort Bedingung für die Gükltigkeit ist
   completed: {
     type: Boolean,
     default: false
@@ -33,7 +35,7 @@ const UtxtSchema = new mongoose.Schema({
       default: new Date().getTime()
     }
   },
-  utxtuser: {
+  wortuser: {
     _creator: {
       type: mongoose.Schema.Types.ObjectId,
       required: true
@@ -49,6 +51,6 @@ const UtxtSchema = new mongoose.Schema({
   }
 }, { discriminatorKey: '_type' });
 
-const Utxt = mongoose.model('Utxt', UtxtSchema);
+const Wort = mongoose.model('Wort', WortSchema);
 
-module.exports = { Utxt, UtxtSchema };
+module.exports = { Wort, WortSchema };

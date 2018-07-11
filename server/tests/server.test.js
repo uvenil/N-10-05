@@ -3,19 +3,19 @@ const request = require('supertest');
 const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
-const {Utxt} = require('./../models/utxt');
+const {Wort} = require('./../models/wort');
 const {User} = require('./../models/user');
-const {utxts, populateUtxts, users, populateUsers} = require('./seed/seed');
+const {worte, populateWorte, users, populateUsers} = require('./seed/seed');
 
 beforeEach(populateUsers);
-beforeEach(populateUtxts);
+beforeEach(populateWorte);
 
-describe('POST /utxts', () => {
-  it('should create a new utxt', (done) => {
-    var text = 'Test utxt text';
+describe('POST /worte', () => {
+  it('should create a new wort', (done) => {
+    var text = 'Test wort text';
 
     request(app)
-      .post('/utxts')
+      .post('/worte')
       .set('x-auth', users[0].tokens[0].token)
       .send({text})
       .expect(200)
@@ -27,19 +27,19 @@ describe('POST /utxts', () => {
           return done(err);
         }
 
-        Utxt.find({text}).then((utxts) => {
-          expect(utxts.length).toBe(1);
-          expect(utxts[0].text).toBe(text);
-          expect(typeof utxts[0].time.lastModified).toBe('number');
-          expect(typeof utxts[0].time.createdAt).toBe('number');
+        Wort.find({text}).then((worte) => {
+          expect(worte.length).toBe(1);
+          expect(worte[0].text).toBe(text);
+          expect(typeof worte[0].time.lastModified).toBe('number');
+          expect(typeof worte[0].time.createdAt).toBe('number');
           done();
         }).catch((e) => done(e));
       });
   });
 
-  it('should not create utxt with invalid body data', (done) => {
+  it('should not create wort with invalid body data', (done) => {
     request(app)
-      .post('/utxts')
+      .post('/worte')
       .set('x-auth', users[0].tokens[0].token)
       .send({})
       .expect(400)
@@ -48,52 +48,52 @@ describe('POST /utxts', () => {
           return done(err);
         }
 
-        Utxt.find().then((utxts) => {
-          expect(utxts.length).toBe(2);
+        Wort.find().then((worte) => {
+          expect(worte.length).toBe(2);
           done();
         }).catch((e) => done(e));
       });
   });
 });
 
-describe('GET /utxts', () => {
-  it('should get all utxts', (done) => {
+describe('GET /worte', () => {
+  it('should get all worte', (done) => {
     request(app)
-      .get('/utxts')
+      .get('/worte')
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
-        expect(res.body.utxts.length).toBe(1);
+        expect(res.body.worte.length).toBe(1);
       })
       .end(done);
   });
 });
 
-describe('GET /utxts/:id', () => {
-  it('should return utxt doc', (done) => {
+describe('GET /worte/:id', () => {
+  it('should return wort doc', (done) => {
     request(app)
-      .get(`/utxts/${utxts[0]._id.toHexString()}`)
+      .get(`/worte/${worte[0]._id.toHexString()}`)
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
-        expect(res.body.utxt.text).toBe(utxts[0].text);
+        expect(res.body.wort.text).toBe(worte[0].text);
       })
       .end(done);
   });
 
-  it('should not return utxt doc created by other user', (done) => {
+  it('should not return wort doc created by other user', (done) => {
     request(app)
-      .get(`/utxts/${utxts[1]._id.toHexString()}`)
+      .get(`/worte/${worte[1]._id.toHexString()}`)
       .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
   });
 
-  it('should return 404 if utxt not found', (done) => {
+  it('should return 404 if wort not found', (done) => {
     var hexId = new ObjectID().toHexString();
 
     request(app)
-      .get(`/utxts/${hexId}`)
+      .get(`/worte/${hexId}`)
       .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
@@ -101,41 +101,41 @@ describe('GET /utxts/:id', () => {
 
   it('should return 404 for non-object ids', (done) => {
     request(app)
-      .get('/utxts/123abc')
+      .get('/worte/123abc')
       .set('x-auth', users[0].tokens[0].token)
       .expect(404)
       .end(done);
   });
 });
 
-describe('DELETE /utxts/:id', () => {
-  it('should remove a utxt', (done) => {
-    var hexId = utxts[1]._id.toHexString();
+describe('DELETE /worte/:id', () => {
+  it('should remove a wort', (done) => {
+    var hexId = worte[1]._id.toHexString();
 
     request(app)
-      .delete(`/utxts/${hexId}`)
+      .delete(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .expect(200)
       .expect((res) => {
-        expect(res.body.utxt._id).toBe(hexId);
+        expect(res.body.wort._id).toBe(hexId);
       })
       .end((err, res) => {
         if (err) {
           return done(err);
         }
 
-        Utxt.findById(hexId).then((utxt) => {
-          expect(utxt).not.toBeTruthy();
+        Wort.findById(hexId).then((wort) => {
+          expect(wort).not.toBeTruthy();
           done();
         }).catch((e) => done(e));
       });
   });
 
-  it('should remove a utxt', (done) => {
-    var hexId = utxts[0]._id.toHexString();
+  it('should remove a wort', (done) => {
+    var hexId = worte[0]._id.toHexString();
 
     request(app)
-      .delete(`/utxts/${hexId}`)
+      .delete(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .expect(404)
       .end((err, res) => {
@@ -143,18 +143,18 @@ describe('DELETE /utxts/:id', () => {
           return done(err);
         }
 
-        Utxt.findById(hexId).then((utxt) => {
-          expect(utxt).toBeTruthy();
+        Wort.findById(hexId).then((wort) => {
+          expect(wort).toBeTruthy();
           done();
         }).catch((e) => done(e));
       });
   });
 
-  it('should return 404 if utxt not found', (done) => {
+  it('should return 404 if wort not found', (done) => {
     var hexId = new ObjectID().toHexString();
 
     request(app)
-      .delete(`/utxts/${hexId}`)
+      .delete(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .expect(404)
       .end(done);
@@ -162,20 +162,20 @@ describe('DELETE /utxts/:id', () => {
 
   it('should return 404 if object id is invalid', (done) => {
     request(app)
-      .delete('/utxts/123abc')
+      .delete('/worte/123abc')
       .set('x-auth', users[1].tokens[0].token)
       .expect(404)
       .end(done);
   });
 });
 
-describe('PATCH /utxts/:id', () => {
-  it('should update the utxt', (done) => {
-    var hexId = utxts[0]._id.toHexString();
+describe('PATCH /worte/:id', () => {
+  it('should update the wort', (done) => {
+    var hexId = worte[0]._id.toHexString();
     var text = 'This should be the new text';
 
     request(app)
-      .patch(`/utxts/${hexId}`)
+      .patch(`/worte/${hexId}`)
       .set('x-auth', users[0].tokens[0].token)
       .send({
         completed: true,
@@ -183,21 +183,21 @@ describe('PATCH /utxts/:id', () => {
       })
       .expect(200)
       .expect((res) => {
-        expect(res.body.utxt.text).toBe(text);
-        expect(res.body.utxt.completed).toBe(true);
-        expect(typeof res.body.utxt.time.completedAt).toBe('number');
-        expect(typeof res.body.utxt.time.lastModified).toBe('number');
-        expect(typeof res.body.utxt.time.createdAt).toBe('number');
+        expect(res.body.wort.text).toBe(text);
+        expect(res.body.wort.completed).toBe(true);
+        expect(typeof res.body.wort.time.completedAt).toBe('number');
+        expect(typeof res.body.wort.time.lastModified).toBe('number');
+        expect(typeof res.body.wort.time.createdAt).toBe('number');
       })
       .end(done);
   });
 
-  it('should not update the utxt created by other user', (done) => {
-    var hexId = utxts[0]._id.toHexString();
+  it('should not update the wort created by other user', (done) => {
+    var hexId = worte[0]._id.toHexString();
     var text = 'This should be the new text';
 
     request(app)
-      .patch(`/utxts/${hexId}`)
+      .patch(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .send({
         completed: true,
@@ -207,12 +207,12 @@ describe('PATCH /utxts/:id', () => {
       .end(done);
   });
 
-  it('should clear completedAt when utxt is not completed', (done) => {
-    var hexId = utxts[1]._id.toHexString();
+  it('should clear completedAt when wort is not completed', (done) => {
+    var hexId = worte[1]._id.toHexString();
     var text = 'This should be the new text!!';
 
     request(app)
-      .patch(`/utxts/${hexId}`)
+      .patch(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .send({
         completed: false,
@@ -220,9 +220,9 @@ describe('PATCH /utxts/:id', () => {
       })
       .expect(200)
       .expect((res) => {
-        expect(res.body.utxt.text).toBe(text);
-        expect(res.body.utxt.completed).toBe(false);
-        expect(res.body.utxt.time.completedAt).not.toBeTruthy();
+        expect(res.body.wort.text).toBe(text);
+        expect(res.body.wort.completed).toBe(false);
+        expect(res.body.wort.time.completedAt).not.toBeTruthy();
       })
       .end(done);
   });
