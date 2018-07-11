@@ -23,9 +23,7 @@ app.post('/utxts', authenticate, (req, res) => {
       createdAt: aktTime,
       lastModified: aktTime
     },
-    utxtuser: {
-      _creator: req.user._id
-    }
+    'utxtuser._creator': req.user._id
   });
 
   utxt.save().then((doc) => {

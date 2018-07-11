@@ -27,17 +27,13 @@ const users = [{
 const utxts = [{
   _id: new ObjectID(),
   text: 'First test utxt',
-  utxtuser: {
-    _creator: userOneId
-  }
+  'utxtuser._creator': userOneId
 }, {
   _id: new ObjectID(),
   text: 'Second test utxt',
   completed: true,
-  time: { completedAt: 333 },
-  utxtuser: {
-    _creator: userTwoId
-  }
+  'time.completedAt': 333,
+  'utxtuser._creator': userTwoId
 }];
 
 const populateUtxts = (done) => {
