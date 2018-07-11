@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 
 // !!! hier: 
-// createdAt automatisch in Mongo erzeugen
+// user in Utxt zusammenfassen
+// Aggregationsstufe
 // Einzeldaten im Attribut meta zusammenfassen
+// user groups
 // creator-String und coworker-Array, editor-rights
 var Utxt = mongoose.model('Utxt', {
   text: {
@@ -29,9 +31,19 @@ var Utxt = mongoose.model('Utxt', {
       default: new Date().getTime()
     }
   },
-  _creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
+  utxtuser: {
+    _creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    },
+    _editors: [{
+      editor: mongoose.Schema.Types.ObjectId,
+      right: {
+        type: String,
+        enum: [null, 'none', 'read', 'write', 'move', 'write-read', 'move-read', 'move-write', 'move-write-read'],
+        default: 'none'
+      }
+    }]
   }
 });
 

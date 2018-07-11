@@ -23,7 +23,9 @@ app.post('/utxts', authenticate, (req, res) => {
       createdAt: aktTime,
       lastModified: aktTime
     },
-    _creator: req.user._id
+    utxtuser: {
+      _creator: req.user._id
+    }
   });
 
   utxt.save().then((doc) => {
@@ -35,7 +37,7 @@ app.post('/utxts', authenticate, (req, res) => {
 
 app.get('/utxts', authenticate, (req, res) => {
   Utxt.find({
-    _creator: req.user._id
+    'utxtuser._creator': req.user._id
   }).then((utxts) => {
     res.send({utxts});
   }, (e) => {
@@ -52,7 +54,7 @@ app.get('/utxts/:id', authenticate, (req, res) => {
 
   Utxt.findOne({
     _id: id,
-    _creator: req.user._id
+    'utxtuser._creator': req.user._id
   }).then((utxt) => {
     if (!utxt) {
       return res.status(404).send();
@@ -74,7 +76,7 @@ app.delete('/utxts/:id', authenticate, async (req, res) => {
   try {
     const utxt = await Utxt.findOneAndRemove({
       _id: id,
-      _creator: req.user._id
+      'utxtuser._creator': req.user._id
     });
     if (!utxt) {
       return res.status(404).send();
@@ -105,7 +107,7 @@ app.patch('/utxts/:id', authenticate, (req, res) => {
     body.time.completedAt = null;
   }
   
-  Utxt.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((utxt) => {
+  Utxt.findOneAndUpdate({ _id: id, 'utxtuser._creator': req.user._id}, {$set: body}, {new: true}).then((utxt) => {
     if (!utxt) {
       return res.status(404).send();
     }
