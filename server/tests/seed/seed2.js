@@ -44,11 +44,11 @@ const worte = [{
 const saetze = [{
   ...worte[0],
   _id: new ObjectID(),
-  satz: [{ // Verknüpfungstyp
-    name: "testsatz1",
+  satz: { // Verknüpfungstyp
+    typ: "testsatz1",
     worte: [worte[0]._id, worte[1]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
-    satzcond: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
-  }]
+    worteCond: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
+  }
 }, {
   ...worte[1],
   _id: new ObjectID(),
@@ -56,11 +56,11 @@ const saetze = [{
   archived: true,
   'time.archivedAt': 555,
   'wortuser._creator': userTwoId,
-  satz: [{ // Verknüpfungstyp
-      name: "testsatz2",
+  satz: { // Verknüpfungstyp
+      typ: "testsatz2",
       worte: [worte[1]._id, worte[0]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
-      satzcond: [worte[1]._id] // Bedingung für die Gükltigkeit der Verbindung
-  }]
+      worteCond: [worte[1]._id] // Bedingung für die Gükltigkeit der Verbindung
+  }
 }];
 
 const done = () => {
