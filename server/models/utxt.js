@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 mongoose.plugin(require('./lastMod'));
 
 // !!! hier: 
-// Usergruppen mit Rechten
+// hyperwort.de, hyperwort.com registrieren
+// utxt = hyperwort, ulink = hypersatz, ggf. zirkuläre Sätze ermitteln in 2D, 3D, xD
 // Aggregationsstufe
 // Einzeldaten im Attribut meta zusammenfassen
-// user groups
-// creator-String und coworker-Array, editor-rights
+// Usergruppen mit Rechten
 const UtxtSchema = new mongoose.Schema({
   text: {
     type: String,
@@ -14,6 +14,8 @@ const UtxtSchema = new mongoose.Schema({
     minlength: 1,
     trim: true
   },
+  ulinks: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, in denen der aktuelle utxt vorkommt
+  ulinkcond: [mongoose.Schema.Types.ObjectId], // Verbindungen ulinks, bei denen der aktuelle utxt Bedingung für die Gükltigkeit ist
   completed: {
     type: Boolean,
     default: false
