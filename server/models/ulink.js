@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+mongoose.plugin(require('./lastMod'));
 
 // links in Utxt zusammenfassen (name, auf, ab), 2-, 3-wertig
 var Ulink = mongoose.model('Utxt', {

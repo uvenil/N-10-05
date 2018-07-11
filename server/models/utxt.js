@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
+mongoose.plugin(require('./lastMod'));
 
 // !!! hier: 
-// user in Utxt zusammenfassen
+// Usergruppen mit rechten
 // Aggregationsstufe
 // Einzeldaten im Attribut meta zusammenfassen
 // user groups
@@ -24,7 +25,7 @@ var Utxt = mongoose.model('Utxt', {
     },
     lastModified: {
       type: Number,
-      default: null
+      default: new Date().getTime()
     },
     createdAt: {
       type: Number,
