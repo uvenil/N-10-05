@@ -9,17 +9,17 @@ const { mongoose } = require('./../db/mongoose');
 // Einzeldaten im Attribut meta zusammenfassen
 // Usergruppen mit Rechten
 const WortSchema = new mongoose.Schema({
-  text: {
+  wort: {
     type: String,
     required: true,
     minlength: 1,
     trim: true
   },
-  saetze: [mongoose.Schema.Types.ObjectId], // saetze, in denen das aktuelle wort vorkommt
-  saetzeCond: [mongoose.Schema.Types.ObjectId], // saetze, bei denen der aktuelle wort Bedingung für die Gükltigkeit ist
+  saetze: [mongoose.Schema.Types.ObjectId], // saetze, in denen das aktuelle wort vorkommt (ObjectIds)
+  saetzeCond: [mongoose.Schema.Types.ObjectId], // saetze, bei denen der aktuelle wort Bedingung für die Gükltigkeit ist (ObjectId)
   archived: {
     type: Boolean,
-    default: null
+    default: null // null = Standard, true = archiviert, false = priorisiert
   },
   time: {
     archivedAt: {

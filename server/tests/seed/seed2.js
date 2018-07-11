@@ -31,11 +31,11 @@ const users = [{
 
 const worte = [{
   _id: new ObjectID(),
-  text: 'First test satz',
+  wort: 'First test satz',
   'wortuser._creator': userOneId
 }, {
   _id: new ObjectID(),
-  text: 'Second test satz',
+  wort: 'Second test satz',
   archived: true,
   'time.archivedAt': 333,
   'wortuser._creator': userTwoId
@@ -52,7 +52,7 @@ const saetze = [{
 }, {
   ...worte[1],
   _id: new ObjectID(),
-  text: 'Second test wort',
+  wort: 'Second test wort',
   archived: true,
   'time.archivedAt': 555,
   'wortuser._creator': userTwoId,

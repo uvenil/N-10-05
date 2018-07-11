@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.post('/worte', authenticate, (req, res) => {
   const aktTime = new Date().getTime();
   var wort = new Wort({
-    text: req.body.text,
+    wort: req.body.wort,
     time: {
       createdAt: aktTime,
       lastModified: aktTime
@@ -88,7 +88,7 @@ app.delete('/worte/:id', authenticate, async (req, res) => {
 
 app.patch('/worte/:id', authenticate, (req, res) => {
   var id = req.params.id;
-  var body = _.pick(req.body, ['text', 'archived']);
+  var body = _.pick(req.body, ['wort', 'archived']);
   body.time = {};
   const aktTime = new Date().getTime();
   

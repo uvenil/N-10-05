@@ -5,7 +5,6 @@ const { mongoose } = require('./../db/mongoose');
 const extend = require('mongoose-schema-extend');
 const { WortSchema } = require('./wort');
 
-// satz in Wort zusammenfassen (name, auf, ab), 2-, 3-wertig
 var SatzSchema = WortSchema.extend({ // WortSchema wird vererbt und erweitert, jeder Satz ist gleichzeitig wieder ein Wort (für die nächste Ebene)
   satz: [{ // Verknüpfungstyp
     name: {

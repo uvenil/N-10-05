@@ -12,24 +12,24 @@ beforeEach(populateWorte);
 
 describe('POST /worte', () => {
   it('should create a new wort', (done) => {
-    var text = 'Test wort text';
+    var wort = 'Test wort wort';
 
     request(app)
       .post('/worte')
       .set('x-auth', users[0].tokens[0].token)
-      .send({text})
+      .send({wort})
       .expect(200)
       .expect((res) => {
-        expect(res.body.text).toBe(text);
+        expect(res.body.wort).toBe(wort);
       })
       .end((err, res) => {
         if (err) {
           return done(err);
         }
 
-        Wort.find({text}).then((worte) => {
+        Wort.find({wort}).then((worte) => {
           expect(worte.length).toBe(1);
-          expect(worte[0].text).toBe(text);
+          expect(worte[0].wort).toBe(wort);
           expect(typeof worte[0].time.lastModified).toBe('number');
           expect(typeof worte[0].time.createdAt).toBe('number');
           done();
@@ -76,7 +76,7 @@ describe('GET /worte/:id', () => {
       .set('x-auth', users[0].tokens[0].token)
       .expect(200)
       .expect((res) => {
-        expect(res.body.wort.text).toBe(worte[0].text);
+        expect(res.body.wort.wort).toBe(worte[0].wort);
       })
       .end(done);
   });
@@ -172,18 +172,18 @@ describe('DELETE /worte/:id', () => {
 describe('PATCH /worte/:id', () => {
   it('should update the wort', (done) => {
     var hexId = worte[0]._id.toHexString();
-    var text = 'This should be the new text';
+    var wort = 'This should be the new wort';
 
     request(app)
       .patch(`/worte/${hexId}`)
       .set('x-auth', users[0].tokens[0].token)
       .send({
         archived: true,
-        text
+        wort
       })
       .expect(200)
       .expect((res) => {
-        expect(res.body.wort.text).toBe(text);
+        expect(res.body.wort.wort).toBe(wort);
         expect(res.body.wort.archived).toBe(true);
         expect(typeof res.body.wort.time.archivedAt).toBe('number');
         expect(typeof res.body.wort.time.lastModified).toBe('number');
@@ -194,14 +194,14 @@ describe('PATCH /worte/:id', () => {
 
   it('should not update the wort created by other user', (done) => {
     var hexId = worte[0]._id.toHexString();
-    var text = 'This should be the new text';
+    var wort = 'This should be the new wort';
 
     request(app)
       .patch(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .send({
         archived: true,
-        text
+        wort
       })
       .expect(404)
       .end(done);
@@ -209,18 +209,18 @@ describe('PATCH /worte/:id', () => {
 
   it('should clear archivedAt when wort is not archived', (done) => {
     var hexId = worte[1]._id.toHexString();
-    var text = 'This should be the new text!!';
+    var wort = 'This should be the new wort!!';
 
     request(app)
       .patch(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .send({
         archived: false,
-        text
+        wort
       })
       .expect(200)
       .expect((res) => {
-        expect(res.body.wort.text).toBe(text);
+        expect(res.body.wort.wort).toBe(wort);
         expect(res.body.wort.archived).toBe(false);
         expect(res.body.wort.time.archivedAt).not.toBeTruthy();
       })

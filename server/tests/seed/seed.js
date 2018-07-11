@@ -26,11 +26,11 @@ const users = [{
 
 const worte = [{
   _id: new ObjectID(),
-  text: 'First test wort',
+  wort: 'First test wort',
   'wortuser._creator': userOneId
 }, {
   _id: new ObjectID(),
-  text: 'Second test wort',
+  wort: 'Second test wort',
   archived: true,
   'time.archivedAt': 333,
   'wortuser._creator': userTwoId
