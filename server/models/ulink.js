@@ -1,36 +1,22 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.plugin(require('./lastMod'));
+require('./extend');
+const Schema = mongoose.Schema;
+var { UtxtSchema } = require('./utxt');
 
 // links in Utxt zusammenfassen (name, auf, ab), 2-, 3-wertig
-var Ulink = mongoose.model('Utxt', {
-  text: {
-    type: String,
-    required: true,
-    minlength: 1,
-    trim: true
-  },
-  completed: {
-    type: Boolean,
-    default: false
-  },
-  time: {
-    completedAt: {
-      type: Number,
-      default: null
+var UlinkSchema = UtxtSchema.extend({ // UtxtSchema wird vererbt
+  links: [{ // Verknüpfungstyp
+    name: {
+      type: String,
+      required: true
     },
-    lastModified: {
-      type: Number,
-      default: null
-    },
-    createdAt: {
-      type: Number,
-      default: new Date().getTime()
-    }
-  },
-  _creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  }
+    auf: [Schema.Types.ObjectId], // aufwaerts liegende utxts
+    ab: [Schema.Types.ObjectId] // abwaerts liegende utxts
+  }]
 });
 
-module.exports = {Ulink};
+var Ulink = mongoose.model('Utxt', UlinkSchema);
+
+
+module.exports = { Ulink };

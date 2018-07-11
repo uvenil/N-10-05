@@ -1,13 +1,13 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.plugin(require('./lastMod'));
 
 // !!! hier: 
-// Usergruppen mit rechten
+// Usergruppen mit Rechten
 // Aggregationsstufe
 // Einzeldaten im Attribut meta zusammenfassen
 // user groups
 // creator-String und coworker-Array, editor-rights
-var Utxt = mongoose.model('Utxt', {
+const UtxtSchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -46,6 +46,8 @@ var Utxt = mongoose.model('Utxt', {
       }
     }]
   }
-});
+}, { discriminatorKey: '_type' });
 
-module.exports = {Utxt};
+const Utxt = mongoose.model('Utxt', UtxtSchema);
+
+module.exports = { Utxt, UtxtSchema };
