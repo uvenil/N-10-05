@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-mongoose.plugin(require('./lastMod'));
+const { mongoose } = require('./../db/mongoose');
 
 // !!! hier: 
 // hyperwort.de, hyperwort.com registrieren

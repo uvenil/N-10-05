@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-mongoose.plugin(require('./lastMod'));
+const { mongoose } = require('./../db/mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');

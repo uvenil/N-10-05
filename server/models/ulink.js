@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-mongoose.plugin(require('./lastMod'));
-require('./extend');
+const { mongoose } = require('./../db/mongoose');
+
+const extend = require('mongoose-schema-extend');
 const { UtxtSchema } = require('./utxt');
 
 // links in Utxt zusammenfassen (name, auf, ab), 2-, 3-wertig
@@ -15,7 +15,7 @@ var UlinkSchema = UtxtSchema.extend({ // UtxtSchema wird vererbt
   }]
 });
 
-var Ulink = mongoose.model('Utxt', UlinkSchema);
+const Ulink = mongoose.model('Ulink', UlinkSchema);
 
 
 module.exports = { Ulink };
