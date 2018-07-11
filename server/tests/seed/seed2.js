@@ -36,27 +36,27 @@ const worte = [{
 }, {
   _id: new ObjectID(),
   text: 'Second test satz',
-  completed: true,
-  'time.completedAt': 333,
+  archived: true,
+  'time.archivedAt': 333,
   'wortuser._creator': userTwoId
 }];
 
 const saetze = [{
   ...worte[0],
   _id: new ObjectID(),
-  ver: [{ // Verknüpfungstyp
+  satz: [{ // Verknüpfungstyp
     name: "testsatz1",
     worte: [worte[0]._id, worte[1]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
-  satzcond: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
+    satzcond: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
   }]
 }, {
   ...worte[1],
   _id: new ObjectID(),
   text: 'Second test wort',
-  completed: true,
-  'time.completedAt': 555,
+  archived: true,
+  'time.archivedAt': 555,
   'wortuser._creator': userTwoId,
-  ver: [{ // Verknüpfungstyp
+  satz: [{ // Verknüpfungstyp
       name: "testsatz2",
       worte: [worte[1]._id, worte[0]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
       satzcond: [worte[1]._id] // Bedingung für die Gükltigkeit der Verbindung

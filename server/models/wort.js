@@ -15,14 +15,14 @@ const WortSchema = new mongoose.Schema({
     minlength: 1,
     trim: true
   },
-  saetze: [mongoose.Schema.Types.ObjectId], // Verbindungen saetze, in denen der aktuelle wort vorkommt
-  saetzeCond: [mongoose.Schema.Types.ObjectId], // Verbindungen saetze, bei denen der aktuelle wort Bedingung für die Gükltigkeit ist
-  completed: {
+  saetze: [mongoose.Schema.Types.ObjectId], // saetze, in denen das aktuelle wort vorkommt
+  saetzeCond: [mongoose.Schema.Types.ObjectId], // saetze, bei denen der aktuelle wort Bedingung für die Gükltigkeit ist
+  archived: {
     type: Boolean,
-    default: false
+    default: null
   },
   time: {
-    completedAt: {
+    archivedAt: {
       type: Number,
       default: null
     },

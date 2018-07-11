@@ -31,8 +31,8 @@ const worte = [{
 }, {
   _id: new ObjectID(),
   text: 'Second test wort',
-  completed: true,
-  'time.completedAt': 333,
+  archived: true,
+  'time.archivedAt': 333,
   'wortuser._creator': userTwoId
 }];
 

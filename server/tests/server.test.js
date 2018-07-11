@@ -178,14 +178,14 @@ describe('PATCH /worte/:id', () => {
       .patch(`/worte/${hexId}`)
       .set('x-auth', users[0].tokens[0].token)
       .send({
-        completed: true,
+        archived: true,
         text
       })
       .expect(200)
       .expect((res) => {
         expect(res.body.wort.text).toBe(text);
-        expect(res.body.wort.completed).toBe(true);
-        expect(typeof res.body.wort.time.completedAt).toBe('number');
+        expect(res.body.wort.archived).toBe(true);
+        expect(typeof res.body.wort.time.archivedAt).toBe('number');
         expect(typeof res.body.wort.time.lastModified).toBe('number');
         expect(typeof res.body.wort.time.createdAt).toBe('number');
       })
@@ -200,14 +200,14 @@ describe('PATCH /worte/:id', () => {
       .patch(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .send({
-        completed: true,
+        archived: true,
         text
       })
       .expect(404)
       .end(done);
   });
 
-  it('should clear completedAt when wort is not completed', (done) => {
+  it('should clear archivedAt when wort is not archived', (done) => {
     var hexId = worte[1]._id.toHexString();
     var text = 'This should be the new text!!';
 
@@ -215,14 +215,14 @@ describe('PATCH /worte/:id', () => {
       .patch(`/worte/${hexId}`)
       .set('x-auth', users[1].tokens[0].token)
       .send({
-        completed: false,
+        archived: false,
         text
       })
       .expect(200)
       .expect((res) => {
         expect(res.body.wort.text).toBe(text);
-        expect(res.body.wort.completed).toBe(false);
-        expect(res.body.wort.time.completedAt).not.toBeTruthy();
+        expect(res.body.wort.archived).toBe(false);
+        expect(res.body.wort.time.archivedAt).not.toBeTruthy();
       })
       .end(done);
   });

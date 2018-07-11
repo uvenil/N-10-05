@@ -88,7 +88,7 @@ app.delete('/worte/:id', authenticate, async (req, res) => {
 
 app.patch('/worte/:id', authenticate, (req, res) => {
   var id = req.params.id;
-  var body = _.pick(req.body, ['text', 'completed']);
+  var body = _.pick(req.body, ['text', 'archived']);
   body.time = {};
   const aktTime = new Date().getTime();
   
@@ -98,11 +98,11 @@ app.patch('/worte/:id', authenticate, (req, res) => {
     return res.status(404).send();
   }
 
-  if (_.isBoolean(body.completed) && body.completed) {
-    body.time.completedAt = aktTime;
+  if (_.isBoolean(body.archived) && body.archived) {
+    body.time.archivedAt = aktTime;
   } else {
-    body.completed = false;
-    body.time.completedAt = null;
+    body.archived = false;
+    body.time.archivedAt = null;
   }
   
   Wort.findOneAndUpdate({ _id: id, 'wortuser._creator': req.user._id}, {$set: body}, {new: true}).then((wort) => {
