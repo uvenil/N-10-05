@@ -1,7 +1,6 @@
 // Satz ist hier der HyperSatz, das heißt ein oder meherere geordnete Listen (echter Satz, Liste, Tag, Erbfolge, Linkkette) von HyperWorten (deren ObjectIds): z.B. GeschaeftsIdeen -> ProjektPlanen -> GewinneMachen
 
 const { mongoose } = require('./../db/mongoose');
-
 const extend = require('mongoose-schema-extend');
 const { WortSchema } = require('./wort');
 

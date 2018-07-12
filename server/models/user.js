@@ -30,7 +30,12 @@ var UserSchema = new mongoose.Schema({
       type: String,
       required: true
     }
-  }]
+  }],
+  right: {  // wird noch nicht verwendet
+    type: String,
+    enum: [null, 'none', 'read', 'write', 'move', 'write-read', 'move-read', 'move-write', 'move-write-read'],
+    default: 'move-write-read'
+  }
 });
 
 UserSchema.methods.toJSON = function () {

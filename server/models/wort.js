@@ -1,14 +1,14 @@
-// Wort ist hier das HyperWort, das heißt ein Ausdruck ohne Leerzeichen in CamelCase: z.B. ProjektPlanen, GeschaeftsIdeen
-
+// Wort ist hier das HyperWort, das heißt meist ein Ausdruck ohne Leerzeichen in CamelCase: z.B. ProjektPlanen, GeschaeftsIdeen
 const { mongoose } = require('./../db/mongoose');
 
 // !!! hier: 
-// hyperwort.de, hyperwort.com registrieren
 // neues Projekt: utxt
+// hyperwort.de, hyperwort.com registrieren
+
 // tests aktualisieren
-// wort = hyperwort, satz = hypersatz, ggf. zirkuläre Sätze ermitteln in 2D, 3D, xD
-// Aggregationsstufe
-// Einzeldaten im Attribut meta zusammenfassen
+// seed2 zu testen der Datenbankspeicherung (Mongoose.save)
+
+// , ggf. zirkuläre Sätze ermitteln in 2D, 3D, xD
 // Usergruppen mit Rechten
 // Utxt Patent anmelden
 const WortSchema = new mongoose.Schema({
@@ -45,7 +45,7 @@ const WortSchema = new mongoose.Schema({
     },
     _editors: [{
       editor: mongoose.Schema.Types.ObjectId,
-      right: {
+      right: {  // wird noch nicht verwendet
         type: String,
         enum: [null, 'none', 'read', 'write', 'move', 'write-read', 'move-read', 'move-write', 'move-write-read'],
         default: 'none'

@@ -1,3 +1,5 @@
+// wort = hyperwort, satz = hypersatz
+
 require('./config/config');
 
 const _ = require('lodash');
