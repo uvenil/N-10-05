@@ -4,10 +4,13 @@ const { mongoose } = require('./../db/mongoose');
 
 // !!! hier: 
 // hyperwort.de, hyperwort.com registrieren
+// neues Projekt: utxt
+// tests aktualisieren
 // wort = hyperwort, satz = hypersatz, ggf. zirkuläre Sätze ermitteln in 2D, 3D, xD
 // Aggregationsstufe
 // Einzeldaten im Attribut meta zusammenfassen
 // Usergruppen mit Rechten
+// Utxt Patent anmelden
 const WortSchema = new mongoose.Schema({
   wort: {
     type: String,
@@ -15,8 +18,8 @@ const WortSchema = new mongoose.Schema({
     minlength: 1,
     trim: true
   },
-  saetze: [mongoose.Schema.Types.ObjectId], // saetze, in denen das aktuelle wort vorkommt (ObjectIds)
-  saetzeCond: [mongoose.Schema.Types.ObjectId], // saetze, bei denen der aktuelle wort Bedingung für die Gükltigkeit ist (ObjectId)
+  satzteileIn: [mongoose.Schema.Types.ObjectId], // Satzteile, in denen das aktuelle wort vorkommt (ObjectIds)
+  satzteileIf: [mongoose.Schema.Types.ObjectId], // Satzteile, bei denen der aktuelle wort Bedingung für deren Gükltigkeit/Existenz ist (ObjectId)
   archived: {
     type: Boolean,
     default: null // null = Standard, true = archiviert, false = priorisiert

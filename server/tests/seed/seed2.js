@@ -44,23 +44,36 @@ const worte = [{
 const saetze = [{
   ...worte[0],
   _id: new ObjectID(),
-  satz: { // Verknüpfungstyp
-    typ: "testsatz1",
+  satzStats: {
+    maxNesting: 1, // maximale Verschachtelungstiefe des Satzes
+    avNesting: 2, // mittlere Verschachtelungstiefe des Satzes
+    anzBasisworte: 3
+  }, 
+  satzteile: [{
+    typ: "typ1",
     worte: [worte[0]._id, worte[1]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
-    worteCond: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
-  }
-}, {
+    worteIf: [worte[0]._id] // Bedingung für die Gükltigkeit der Verbindung
+  }, {
+    typ: "typ3",
+    worte: [worte[1]._id, worte[0]._id],
+    worteIf: []
+  }, {
+    typ: "typ1",
+    worte: [worte[0]._id],
+    worteIf: [worte[1]._id]
+  }],
+  }, {
   ...worte[1],
   _id: new ObjectID(),
   wort: 'Second test wort',
   archived: true,
   'time.archivedAt': 555,
   'wortuser._creator': userTwoId,
-  satz: { // Verknüpfungstyp
-      typ: "testsatz2",
+  satzteile: [{
+      typ: "typ2",
       worte: [worte[1]._id, worte[0]._id], // worte in der Verbingung Satz in der richtigen Reihenfolge
-      worteCond: [worte[1]._id] // Bedingung für die Gükltigkeit der Verbindung
-  }
+      worteIf: [worte[1]._id] // Bedingung für die Gükltigkeit der Verbindung
+  }]
 }];
 
 const done = () => {
